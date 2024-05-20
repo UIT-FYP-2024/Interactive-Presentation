@@ -22,6 +22,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),
     path('dashboard/', include('dashboard.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
+
+    path('text_generator/', include('text_generator.urls')),
+    path('image_generator/', include('image_generator.urls')),
+
+    path('powerpoint_editor/', include('powerpoint_editor.urls')),
+    path('powerpoint_generator/', include('powerpoint_generator.urls')),
 
 ]

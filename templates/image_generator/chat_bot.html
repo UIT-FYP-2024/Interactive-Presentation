@@ -1,0 +1,166 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<form id="prompt-form" method="post">
+    {% csrf_token %}
+    <div class="timeline-row">
+        <div class="timeline-icon">
+            <div class="bg-info-400">
+                <i class="icon-comment-discussion"></i>
+            </div>
+        </div>
+        <div class="panel panel-flat timeline-content" style="height: 550px; position: relative;">
+            <div class="panel-heading">
+                <h6 class="panel-title">Conversation with <span id="api-name-placeholder">Pexels</span> API</h6>
+                <div class="heading-elements">
+                    <div class="form-group">
+                        <label>
+                            <select id="api-select" class="bootstrap-select" data-style="btn-primary" data-width="100%">
+                                <optgroup label="Stock Images">
+                                    <option value="pexels">Pexels</option>
+                                </optgroup>
+                                <optgroup label="Generative Models">
+                                    <option value="stableDiffusion">Stable Diffusion</option>
+                                    <option value="openJourney">Open Journey</option>
+                                    <option value="waifuDiffusion">Waifu Diffusion</option>
+                                </optgroup>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel-body" style="position: relative;">
+                <ul class="media-list chat-list content-group" id="chat-messages" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Chat messages will be displayed here -->
+                </ul>
+                
+                <div class="row" style="position: absolute; top: 340px; left: 20px; right: 20px;">
+                    <textarea id="prompt-input" class="form-control content-group" rows="3" cols="1"
+                        placeholder="Enter your prompt..." style="margin-bottom: 10px;"></textarea>
+            
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <ul class="icons-list icons-list-extended mt-10">
+                                <li><a href="#" onclick="sendPrompt()" data-popup="tooltip" title="" data-container="body"
+                                        data-original-title="Send prompt"><i class="icon-comment-discussion"></i></a></li>
+                            </ul>
+                        </div>
+            
+                        <div class="col-xs-6 text-right">
+                            <button type="button" onclick="sendPrompt()"
+                                class="btn bg-teal-400 btn-labeled btn-labeled-right"><b><i
+                                        class="icon-circle-right2"></i></b> Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script>
+    $(function() {
+        $(".timeline-content").draggable();
+    });
+    
+    document.getElementById("api-select").addEventListener("change", function() {
+        const selectedApi = this.value;
+        let apiName = '';
+        if (selectedApi === 'pexels') {
+            apiName = 'Pexels';
+        } else if (selectedApi === 'stableDiffusion') {
+            apiName = 'Stable Diffusion';
+        } else if (selectedApi === 'openJourney') { 
+            apiName = 'Open Journey'; 
+        } else if (selectedApi === 'waifuDiffusion') { 
+            apiName = 'Waifu Diffusion'; 
+        }
+        document.getElementById("api-name-placeholder").textContent = apiName;
+    });
+    
+    // Function to retrieve CSRF token from cookies
+    function getCsrfToken() {
+        const csrfCookie = document.cookie.split('; ').find(row => row.startsWith('csrftoken='));
+        if (csrfCookie) {
+            return csrfCookie.split('=')[1];
+        }
+        return null;
+    }
+    
+    function sendPrompt() {
+        const prompt = $('#prompt-input').val();
+        const selectedApi = $('#api-select').val();
+        const csrfToken = getCsrfToken();
+        
+        // Check if prompt is not empty
+        if (prompt.trim() === '') {
+            alert('Prompt cannot be empty');
+            return;
+        }
+        
+        $.ajax(
+            {
+                url: '/image_generator/generate_chat/',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+            },
+            data: {
+                prompt: prompt,
+                selectedApi: selectedApi
+            },
+            
+            success: async function(data) {
+                if (data && data.image_url) {
+                    
+                    $('#loader').hide();
+                    // Render user prompt as a message
+                    $('#chat-messages').append(
+                        '<li class="media reversed">' +
+                        '<div class="media-body">' +
+                        '<div class="media-content">' + prompt + '</div>' +
+                        '<span class="media-annotation display-block mt-10">' + new Date().toLocaleString() + '</span>' +
+                        '</div>' +
+                        '</li>'
+                    );
+                    
+                    // If image URL is available, render it as an image
+                    $('#chat-messages').append(
+                        '<li class="media">' +
+                            '<div class="media-body">' +
+                                '<div class="media-content">' +
+                                    '<div class="col-lg-4 col-sm-6">' +
+                                        '<div class="thumbnail">' +
+                                            '<div class="thumb">' +
+                                                '<img src="' + data.image_url + '" class="img-circle" alt="">' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<span class="media-middle media-right">' +
+                                    '<li><a download="' + data.image_url + '" data-popup="tooltip" title="Download" data-toggle="modal" data-target="#download">' +
+                                    '<i class="icon-download"></i></a></li>' +
+                                '</span>' +
+                                '<span class="media-annotation display-block mt-10">' + new Date().toLocaleString() + '</span>' +
+                            '</div>' +
+                        '</li>'
+                    );
+                } else {
+                    alert('Failed to fetch images.');
+                }
+            },
+            error: function() {
+                alert('Failed to fetch images from the server.');
+            }
+        });
+    }
+</script>
+
+{% endblock %}

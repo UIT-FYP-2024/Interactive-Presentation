@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Interactive Presentation maker</title>
+
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/icons/icomoon/styles.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/core.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/components.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/colors.css' %}" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+
+    <!-- Core JS files -->
+    <script type="text/javascript" src="{% static 'assets/js/plugins/loaders/pace.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/core/libraries/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/core/libraries/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/loaders/blockui.min.js' %}"></script>
+    <!-- /core JS files -->
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="{% static 'assets/js/plugins/visualization/d3/d3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/visualization/d3/d3_tooltip.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/forms/styling/switchery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/forms/selects/bootstrap_multiselect.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/ui/moment/moment.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/pickers/daterangepicker.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/pages/dashboard.js' %}"></script>
+    
+    <script type="text/javascript" src="{% static 'assets/js/plugins/forms/wizards/stepy.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/core/libraries/jasny_bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/validation/validate.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/pages/wizard_stepy.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/forms/selects/bootstrap_select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/pages/form_bootstrap_select.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/notifications/sweet_alert.min.js' %}"></script>
+
+    <!-- /theme JS files -->
+
+</head>
+
+<body>
+
+	<!-- Main navbar -->
+	<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'index' %}">AI Presentation Maker</a>
+            <ul class="nav navbar-nav visible-xs-block">
+                <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+            </ul>
+        </div>
+
+		<div class="navbar-collapse collapse" id="navbar-mobile">
+			<ul class="nav navbar-nav">
+				<li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+			</ul>
+
+			<p class="navbar-text"><span class="label bg-success">Online</span></p>
+
+			<ul class="nav navbar-nav navbar-right">
+
+				<li class="dropdown dropdown-user">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						<span><i class="icon-user"></i></span>
+						<i class="caret"></i>
+					</a>
+
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
+						<li><a href="#"><i class="icon-coins"></i> My balance<span class="badge bg-teal-400 pull-right">$58</span></a></li>
+						<li class="divider"></li>
+						<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
+						<li><a href="{% url 'sign_out' %}"><i class="icon-switch2"></i><span class="label bg-danger">Sign Out</span></a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	    <!-- /main navbar -->
+
+
+	    <!-- Page container -->
+	    <div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main sidebar -->
+			<div class="sidebar sidebar-main sidebar-fixed">
+				<div class="sidebar-content">
+					<!-- Main navigation -->
+					<div class="sidebar-category sidebar-category-visible">
+						<div class="category-content no-padding">
+							<ul class="navigation navigation-main navigation-accordion">
+
+								<!-- Main -->
+								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
+								<li class="active"><a href="{% url 'index' %}"><i class="icon-home4"></i> <span>Home</span></a></li>
+                                <li class="panel panel-flat"></li>
+                                
+                                <li>
+                                    <a href="{% url 'index' %}"><i class="icon-power2"></i> <span>AI Tools</span></a>
+                                    <ul>
+										<li><a href="{% url 'powerpoint_generator' %}"><i class="icon-presentation"></i>AI Presentation</a></li>
+										<li><a href="{% url 'chat_text' %}"><i class="icon-pencil7"></i>AI Text Generator</a></li>
+										<li><a href="{% url 'chat_image' %}"><i class="icon-images2"></i>AI Image Generator</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{% url 'index' %}"><i class="icon-pencil7"></i> <span>Editors</span></a>
+                                    <ul>
+										<li><a href="{% url 'powerpoint_editor' %}"><i class="icon-file-presentation2"></i>Presentation Editor</a></li>
+										<li><a href=""><i class="icon-image-compare"></i>Image Editor</a></li>
+										<li><a href=""><i class="icon-pencil"></i>Translator</a></li>
+                                    </ul>
+                                </li>
+                                <li class="panel panel-flat"></li>
+                                
+                                <li>
+                                    <a href="{% url 'index' %}"><i class="icon-folder"></i> <span>Stock</span></a>
+                                    <ul>
+                                        <li><a href="{% url 'index' %}"><i class="icon-store2"></i> <span>Templates</span></a></li>
+                                        <li><a href="{% url 'index' %}"><i class="icon-folder"></i> <span>Assets</span></a></li>
+								        <li><a href="{% url 'index' %}"><i class="icon-color-sampler"></i> <span>Brand Kits</span></a></li>
+                                    </ul>
+                                </li>
+                                <li class="panel panel-flat"></li>
+                                
+                                <li><a href="{% url 'recent_documents' %}"><i class="icon-file-presentation2"></i> <span>Recent Documents</span></a></li>
+                                <li class="panel panel-flat"></li>
+                                
+                                <li><a href="{% url 'tutorials' %}"><i class="icon-video-camera"></i> <span>Tutorials</span></a></li>
+                                <li><a href="{% url 'index' %}"><i class="icon-help"></i> <span>Help</span></a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- /main navigation -->
+
+				</div>
+			</div>
+			<!-- /main sidebar -->
+
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+                
+				<!-- Content area -->
+                <div class="content">
+                    <div>___</div>
+                    <div>'''</div>
+                    {% block content %}
+                        
+                    {% endblock %}
+                
+                    <!-- Footer -->
+                    <div class="footer text-muted text-center">
+                        &copy; 2024. <a href="#">AI Presentation Maker</a> by <a href="https://themeforest.net/user/Kopyov" target="_blank">SE-15</a>
+                    </div>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	    <!-- /page container -->
+</body>
+</html>

@@ -1,0 +1,234 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+{#<!-- Section header -->#}
+{#<div class="row">#}
+{#    <div class="col-md-12">#}
+{#        <div class="panel panel-flat">#}
+{#            <div class="page-header-content">#}
+{#                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">AI Tools</span></h4>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#<!-- /Section header -->#}
+{#<div class="content">#}
+{#    <div class="row">#}
+{#        <div class="col-md-4">#}
+{#            <a href="{% url 'sign_in' %}">#}
+{#                <div class="panel panel-flat">#}
+{#                    <div class="panel-heading">#}
+{#                        <h6 class="panel-title"><i class="icon-presentation"></i> AI Presentation<a#}
+{#                                class="heading-elements-toggle"><i class="icon-more"></i></a></h6>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            <a href="{% url 'sign_in' %}">#}
+{#                <div class="panel panel-flat">#}
+{#                    <div class="panel-heading">#}
+{#                        <h6 class="panel-title"><i class="icon-pencil7"></i> AI Text Generator<a#}
+{#                                class="heading-elements-toggle"><i class="icon-more"></i></a></h6>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            <a href="{% url 'sign_in' %}">#}
+{#                <div class="panel panel-flat">#}
+{#                    <div class="panel-heading">#}
+{#                        <h6 class="panel-title"><i class="icon-images2"></i> AI Image Generator<a#}
+{#                                class="heading-elements-toggle"><i class="icon-more"></i></a></h6>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<!-- Section header -->#}
+{#<div class="page-header">#}
+{#    <div class="row">#}
+{#        <div class="col-md-12">#}
+{#            <div class="panel panel-flat">#}
+{#                <div class="page-header-content">#}
+{#                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Editors</span></h4>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#<!-- /Section header -->#}
+{#<div class="content">#}
+{#    <div class="row">#}
+{#        <div class="col-md-4">#}
+{#            <a href="{% url 'sign_in' %}">#}
+{#                <div class="panel panel-flat">#}
+{#                    <div class="panel-heading">#}
+{#                        <h6 class="panel-title"><i class="icon-file-presentation2"></i> Presentation Editor<a#}
+{#                                class="heading-elements-toggle"><i class="icon-more"></i></a></h6>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            <a href="{% url 'sign_in' %}">#}
+{#                <div class="panel panel-flat">#}
+{#                    <div class="panel-heading">#}
+{#                        <h6 class="panel-title"><i class="icon-image-compare"></i> Image Editor<a#}
+{#                                class="heading-elements-toggle"><i class="icon-more"></i></a></h6>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            <a href="{% url 'sign_in' %}">#}
+{#                <div class="panel panel-flat">#}
+{#                    <div class="panel-heading">#}
+{#                        <h6 class="panel-title"><i class="icon-pencil"></i> Translator<a#}
+{#                                class="heading-elements-toggle"><i class="icon-more"></i></a></h6>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<!-- Section header -->#}
+{#<div class="page-header">#}
+{#    <div class="row">#}
+{#        <div class="col-md-12">#}
+{#            <div class="panel panel-flat">#}
+{#                <div class="page-header-content">#}
+{#                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Stock</span></h4>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#<!-- /Section header -->#}
+{#<div class="content">#}
+{#    <div class="row">#}
+{#        <div class="col-md-4">#}
+{#            <a href="{% url 'sign_in' %}">#}
+{#                <div class="panel panel-flat">#}
+{#                    <div class="panel-heading">#}
+{#                        <h6 class="panel-title"><i class="icon-store2"></i> Templates<a#}
+{#                                class="heading-elements-toggle"><i class="icon-more"></i></a></h6>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            <a href="{% url 'sign_in' %}">#}
+{#                <div class="panel panel-flat">#}
+{#                    <div class="panel-heading">#}
+{#                        <h6 class="panel-title"><i class="icon-folder"></i> Assets<a class="heading-elements-toggle"><i#}
+{#                                    class="icon-more"></i></a></h6>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            <a href="{% url 'sign_in' %}">#}
+{#                <div class="panel panel-flat">#}
+{#                    <div class="panel-heading">#}
+{#                        <h6 class="panel-title"><i class="icon-color-sampler"></i> Brand Kits<a#}
+{#                                class="heading-elements-toggle"><i class="icon-more"></i></a></h6>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+<!-- Section header -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-flat">
+                <div class="page-header-content">
+                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Recent
+                            Documents</span></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Section header -->
+<div class="content">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-flat">
+                <div class="video-container content-group">
+                    <iframe src="https://pern-my.sharepoint.com/personal/20b-057-se_uitu_edu_pk/_layouts/15/Doc.aspx?sourcedoc={d4d5c24f-aa01-463c-9a3c-cd2500f8f949}&amp;action=embedview&amp;wdAr=1.7777777777777777" width="476px" height="288px" frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office</a>.</iframe>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title">Doc 2<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title">Doc 3<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span class="heading-btn pull-right">
+                <a href="{% url 'recent_documents' %}" class="btn btn-link">View More <i class="icon-arrow-right14 position-right"></i></a>
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- Section header -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-flat">
+                <div class="page-header-content">
+                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Tutorials</span>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Section header -->
+<div class="content">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="video-container content-group">
+                <iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="https://player.vimeo.com/video/126545288?title=0&amp;byline=0&amp;portrait=0" webkitallowfullscreen=""></iframe>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="video-container content-group">
+                <iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="https://player.vimeo.com/video/126545288?title=0&amp;byline=0&amp;portrait=0" webkitallowfullscreen=""></iframe>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="video-container content-group">
+                <iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="https://player.vimeo.com/video/126545288?title=0&amp;byline=0&amp;portrait=0" webkitallowfullscreen=""></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span class="heading-btn pull-right">
+                <a href="{% url 'tutorials' %}" class="btn btn-link">View More <i class="icon-arrow-right14 position-right"></i></a>
+            </span>
+        </div>
+    </div>
+</div>
+{% endblock %}

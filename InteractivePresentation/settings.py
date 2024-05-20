@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-ds%&1yjxrxa93@6q&sps^dgmh)!%#nrr4dtypw+57g9&uai_ah
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -39,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication',
     'dashboard',
+
+    'image_generator',
+    'text_generator',
+
+    'powerpoint_editor',
+    'powerpoint_generator',
+
 ]
 
 MIDDLEWARE = [
@@ -49,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'InteractivePresentation.urls'
@@ -71,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'InteractivePresentation.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -81,7 +86,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -105,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -116,7 +119,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -130,4 +132,33 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.image_models.BigAutoField'
+
+AUTH_USER_MODEL = 'authentication.User'  # added manually
+
+# Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'wajahatashfaq2001@gmail.com'
+EMAIL_HOST_PASSWORD = 'fmlm tntk pirm dcfo'
+
+# Pexels
+PEXELS_API_KEY = '0019QDVqTvulnelSAucfe37tuHoN5rjKHTEoMkBb6WShat2F8lnyA0W0'
+
+# Stable Diffusion
+API_URL_STABLE_DIFFUSION = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
+HEADERS = {"Authorization": "Bearer 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"}
+
+# Open Journey
+API_URL_OPEN_JOURNEY = "https://api-inference.huggingface.co/models/prompthero/openjourney"
+
+# Waifu Diffusion
+API_URL_WAIFU_DIFFUSION = "https://api-inference.huggingface.co/models/Red54/waifu-diffusion-v1-3-5"
+
+# GEMINI API KEY
+API_KEY_GEMINI = "AIzaSyAAmToBecEqBzTibxpxzCVr0y40woO8LXY"
+
+# Falcon 180b
+API_URL_OPEN_LLM_LEADERBOARD = "https://huggingface.co/spaces/Wajahat2001/open_llm_leaderboard/run"
