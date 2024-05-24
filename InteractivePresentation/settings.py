@@ -161,4 +161,4 @@ API_URL_WAIFU_DIFFUSION = "https://api-inference.huggingface.co/models/Red54/wai
 API_KEY_GEMINI = "AIzaSyAAmToBecEqBzTibxpxzCVr0y40woO8LXY"
 
 # Falcon 180b
-API_URL_OPEN_LLM_LEADERBOARD = "https://huggingface.co/spaces/Wajahat2001/open_llm_leaderboard/run"
+API_URL_Llama_2_70b_hf = "https://api-inference.huggingface.co/models/meta-llama/Llama-2-70b-hf"

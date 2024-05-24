@@ -35,7 +35,7 @@ def search_images_openJourney(payload):
 
 
 def search_images_waifuDiffusion(payload):
-    response = requests.post(settings.API_URL_OPEN_JOURNEY, headers=settings.HEADERS, json=payload)
+    response = requests.post(settings.API_URL_WAIFU_DIFFUSION, headers=settings.HEADERS, json=payload)
     return response.content
 
 
@@ -55,7 +55,7 @@ def chat_image(request):
     return render(request, 'image_generator/chat_bot.html')
 
 
-def generate_chat(request):
+def generate_chat_image(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Invalid request method'})
 
