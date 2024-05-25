@@ -15,7 +15,6 @@
                             <select id="api-select" class="bootstrap-select" data-style="btn-primary" data-width="100%">
                                 <optgroup label="Text Generation">
                                     <option value="gemini-pro">gemini-pro</option>
-                                    <option value="Llama-2-70b-hf">Llama-2-70b-hf</option>
                                 </optgroup>
                             </select>
                         </label>
@@ -65,8 +64,6 @@
         let apiName = '';
         if (selectedApi === 'gemini-pro') {
             apiName = 'gemini-pro';
-        } else if (selectedApi === 'Llama-2-70b-hf') {
-            apiName = 'Llama-2-70b-hf';
         }
         document.getElementById("api-name-placeholder").textContent = apiName;
     });
@@ -89,6 +86,19 @@
             return;
         }
 
+        // Instantly render the prompt in the chat
+        $('#chat-messages').append(
+            '<li class="media reversed">' +
+            '<div class="media-body">' +
+            '<div class="media-content">' + prompt + '</div>' +
+            '<span class="media-annotation display-block mt-10">' + new Date().toLocaleString() + '</span>' +
+            '</div>' +
+            '</li>'
+        );
+
+        // Clear the textarea
+        $('#prompt-input').val('');
+
         $.ajax({
             url: '/text_generator/generate_chat/',
             method: 'POST',
@@ -101,15 +111,7 @@
             },
             success: function(data) {
                 if (data && data.text_response) {
-                    $('#chat-messages').append(
-                        '<li class="media reversed">' +
-                        '<div class="media-body">' +
-                        '<div class="media-content">' + prompt + '</div>' +
-                        '<span class="media-annotation display-block mt-10">' + new Date().toLocaleString() + '</span>' +
-                        '</div>' +
-                        '</li>'
-                    );
-                    
+                    // Append the text response to the chat
                     $('#chat-messages').append(
                         '<li class="media">' +
                         '<div class="media-body">' +
