@@ -6,11 +6,11 @@
 <form id="prompt-form" method="post">
     {% csrf_token %}
     <div class="timeline-row">
-        <div class="panel panel-flat timeline-content" style="height: 550px;">
+        <div class="panel panel-white" style="height: 550px;">
             <div class="panel-heading">
                 <h6 class="panel-title">Conversation with <span id="api-name-placeholder"> gemini-pro</span> API</h6>
                 <div class="heading-elements">
-                    <div class="form-group">
+                    <div class="form-group" style="margin-top: 10px">
                         <label>
                             <select id="api-select" class="bootstrap-select" data-style="btn-primary" data-width="100%">
                                 <optgroup label="Text Generation">
