@@ -2,47 +2,37 @@
 {% load static %}
 
 {% block content %}
-<!-- Add steps dynamically -->
-<div class="panel panel-white" style="height: 550px">
-
-    <form action="#">
+<div class="panel panel-white" id="presentationDiv" style="height: 550px">
+    <form id="presentationForm" method="post" onsubmit="submitForm(event)">
+        {% csrf_token %}
         <div class="panel-body">
-            
             <div class="row">
-                <div class="col-md-7">
-                    <div class="form-group has-feedback">
-                        <label class="control-label col-lg-3" for="topic-name">Topic Name <span class="text-danger">*</span></label>
-                        <input type="text" name="topic_name" class="form-control" placeholder="AI Presentation">
-                        <div class="form-control-feedback">
-                            <i class="icon-file-text"></i>
-                        </div>
+                <!-- Topic Name and Number of Slides -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="topic-name">Topic Name <span class="text-danger">*</span></label>
+                        <input type="text" name="topic_name" class="form-control" placeholder="AI Presentation" required>
                     </div>
                 </div>
-
-                <div class="col-md-5">
-                    <div class="form-group has-feedback">
-                        <label class="control-label col-lg-3" for="number-of-slides">No Of Slides <span class="text-danger">*</span></label>
-                        <input type="number" name="no_of_slides" class="form-control" placeholder="1 to 100">
-                        <div class="form-control-feedback">
-                            <i class="icon-list-numbered"></i>
-                        </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="number-of-slides">No Of Slides <span class="text-danger">*</span></label>
+                        <input type="number" name="no_of_slides" class="form-control" placeholder="1 to 100" required>
                     </div>
                 </div>
-                
-                <div class="col-md-7">
-                    <div class="form-group has-feedback">
-                        <label class="control-label col-lg-3" for="user-role">User Role <span class="text-danger">*</span></label>
-                        <input type="text" name="user_role" class="form-control" placeholder="What Is Your Role">
-                        <div class="form-control-feedback">
-                            <i class="icon-user"></i>
-                        </div>
+            </div>
+            <div class="row">
+                <!-- User Role and Tone -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="user-role">User Role <span class="text-danger">*</span></label>
+                        <input type="text" name="user_role" class="form-control" placeholder="What Is Your Role" required>
                     </div>
                 </div>
-                
-                <div class="col-md-5">
-                    <div class="form-group has-feedback">
-                        <label class="control-label col-lg-3" for="tone-select">Tone <span class="text-danger">*</span></label>
-                        <select name="tone" class="form-control">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="tone-select">Tone <span class="text-danger">*</span></label>
+                        <select name="tone" class="form-control" required>
                             <option value="professional">Professional</option>
                             <option value="casual">Casual</option>
                             <option value="persuasive">Persuasive</option>
@@ -52,48 +42,31 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-md-7">
-                    <div class="form-group has-feedback">
-                        <label class="control-label col-lg-3" for="target-audience">Target Audience <span class="text-danger">*</span></label>
-                        <input type="text" name="target_audience" class="form-control" placeholder="Who Is Your Target Audience">
-                        <div class="form-control-feedback">
-                            <i class="icon-user"></i>
-                        </div>
+                <!-- Target Audience and Template Choice -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="target-audience">Target Audience <span class="text-danger">*</span></label>
+                        <input type="text" name="target_audience" class="form-control" placeholder="Who Is Your Target Audience" required>
                     </div>
                 </div>
-                
-                <div class="col-md-5">
-                    <div class="form-group has-feedback">
-                        <label class="control-label col-lg-3" for="template-select">Templates <span class="text-danger">*</span></label>
-                        <select name="template_choice" class="form-control">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="template-select">Templates <span class="text-danger">*</span></label>
+                        <select name="template_choice" class="form-control" required>
                             <option value="dark_modern">Dark Modern</option>
                             <!-- Add more template options as needed -->
                         </select>
                     </div>
                 </div>
-                
-                <div class="col-md-12">
-                    <div class="form-group has-feedback">
-                        <label class="control-label col-lg-3" for="prompt">Prompt <span class="text-danger">*</span></label>
-                        <textarea name="prompt" rows="5" class="form-control" placeholder="Describe What You Want In Detail"></textarea>
-                        <div class="form-control-feedback">
-                            <i class="icon-file-text"></i>
-                        </div>
-                    </div>
-                </div>
             </div>
-
+            <!-- Prompt -->
             <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="suggest_pictures" class="styled">
-                        <a href="#">Suggest Some Pictures Also</a>
-                    </label>
-                </div>
+                <label for="Description">Prompt <span class="text-danger">*</span></label>
+                <textarea name="prompt" rows="7" class="form-control" placeholder="Describe What You Want In Detail" required></textarea>
             </div>
             
+            <!-- Submit Button -->
             <div class="text-right">
                 <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
                     <b><i class="icon-power2"></i></b> Create Presentation
@@ -102,5 +75,87 @@
         </div>
     </form>
 </div>
-<!-- /add steps dynamically -->
+    
+<div id="loader" class="panel panel-body border-top-danger text-center" style="display: none; width: 150px; 
+                                                                                margin-left: 450px; margin-top: 200px">
+    <div class="pace-demo">
+        <div class="theme_squares">
+            <div class="pace-progress" data-progress-text="60%" data-progress="60"></div>
+            <div class="pace_activity"></div>
+        </div>
+    </div>
+</div>
+    
+<div id="buttons_group" class="panel panel-body border-top-danger text-center" style="display: none; width: 400px; 
+                                                                               margin-left: 300px; margin-top: 200px">
+    <div class="pace-demo">
+        <button id="editButton" type="button" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10" onclick="editForm()">
+            <b><i class="icon-pencil5"></i></b> Edit
+        </button>    
+    </div>
+    <div class="pace-demo">
+        <a id="downloadButton" href="#" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
+            <b><i class="icon-download"></i></b> Download
+        </a>    
+    </div>
+</div>
+    
+<script>
+    function getCsrfToken() {
+        const csrfCookie = document.cookie.split('; ').find(row => row.startsWith('csrftoken='));
+        if (csrfCookie) {
+            return csrfCookie.split('=')[1];
+        }
+        return null;
+    }
+
+    function submitForm(event) {
+        event.preventDefault();
+        
+        const form = document.getElementById('presentationForm');
+        const formData = new FormData(form);
+        
+        const pptDiv = document.getElementById('presentationDiv');
+        const loader = document.getElementById('loader');
+        const buttonsGroup = document.getElementById('buttons_group');
+        const downloadButton = document.getElementById('downloadButton');
+        
+        pptDiv.style.display = 'none';
+        loader.style.display = 'block';
+
+        const csrfToken = getCsrfToken();
+
+        fetch("{% url 'generate_presentation' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            } else {
+                throw new Error('Failed to generate the presentation.');
+            }
+        })
+        .then(async blob => {
+            const url = window.URL.createObjectURL(await blob);
+            loader.style.display = 'none';
+            buttonsGroup.style.display = 'block';
+            downloadButton.href = url;
+            downloadButton.download = formData.get('topic_name') + '.pptx';
+        })
+        .catch(error => {
+            loader.style.display = 'none';
+            pptDiv.style.display = 'block';
+            alert('An error occurred. Please try again.');
+            console.error('Error:', error);
+        });
+    }
+
+    function editForm() {
+        
+    }
+</script>
 {% endblock %}

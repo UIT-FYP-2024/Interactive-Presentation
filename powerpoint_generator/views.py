@@ -1,49 +1,57 @@
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest
-from .utils import create_ppt, generate_content
+
+from .utils import *
+
+logger = logging.getLogger(__name__)
+
+
+def powerpoint_generator(request):
+    """
+    Render the PowerPoint generation interface.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        HttpResponse: Rendered PowerPoint generation interface page.
+    """
+    return render(request, 'powerpoint_generator/ppt_generator.html')
 
 
 def generate_presentation(request):
-    if request.method == 'POST':
-        # Extract form data
-        topic_name = request.POST.get('topic_name', '').strip()
-        no_of_slides = request.POST.get('no_of_slides', '').strip()
-        user_role = request.POST.get('user_role', '').strip()
-        tone = request.POST.get('tone', '').strip()
-        target_audience = request.POST.get('target_audience', '').strip()
-        prompt = request.POST.get('prompt', '').strip()
-        template_choice = request.POST.get('template_choice', '').strip()
-        suggest_pictures = request.POST.get('suggest_pictures', 'off') == 'on'
+    """
+    Generate PowerPoint based on user inputs.
 
-        # Basic validation
-        if not (topic_name and no_of_slides.isdigit() and user_role and tone and target_audience and prompt):
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        JsonResponse: JSON response containing the generated PowerPoint or an error message.
+    """
+    if request.method == 'POST':
+        form_data = extract_form_data(request.POST)
+
+        if not form_data:
             return HttpResponseBadRequest("All fields are required and 'No Of Slides' must be a number.")
 
-        payload = (
-            f"Create Presentation on {topic_name}, Think as {user_role}, My target Audience is {target_audience}, "
-            f"Include Details About {prompt}, content should be in {tone} tone. Structure of response should be json "
-            f"split in {no_of_slides} Slides, Example {{Slide 1: ' ', Slide 2: ' '}}."
-        )
-
-        if suggest_pictures:
-            payload += " Also suggest some pictures."
-
-        # Generate slides content based on form data
-        slides_content = generate_content(payload)
-
+        slides_content = generate_prompt(form_data)
         if not slides_content:
             return HttpResponseBadRequest("Failed to generate content for the presentation.")
 
-        # Create PowerPoint presentation
-        presentation_file = create_ppt(slides_content, template_choice=template_choice, presentation_title=topic_name)
+        presentation_file = create_ppt(template_choice=form_data['template_choice'], slides_content=slides_content,
+                                       presentation_title=form_data['topic_name'])
 
-        if not presentation_file:
+        if presentation_file:
+            try:
+                with open(presentation_file, 'rb') as ppt_file:
+                    response = HttpResponse(ppt_file.read(),
+                                            content_type='application/vnd.openxmlformats-officedocument'
+                                                         '.presentationml.presentation')
+                    response['Content-Disposition'] = f'attachment; filename="{form_data["topic_name"]}.pptx"'
+                    return response
+            except FileNotFoundError:
+                logger.error(f"Presentation file not found: {presentation_file}")
+                return HttpResponseBadRequest("Presentation file not found.")
+        else:
             return HttpResponseBadRequest("Failed to create the presentation.")
-
-        # Respond with the presentation file for download
-        response = HttpResponse(presentation_file, content_type='application/vnd.openxmlformats-officedocument'
-                                                                '.presentationml.presentation')
-        response['Content-Disposition'] = f'attachment; filename="{topic_name}.pptx"'
-        return response
-
-    return render(request, 'powerpoint_generator/ppt_generator.html')
