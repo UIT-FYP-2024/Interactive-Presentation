@@ -1,11 +1,11 @@
 import unittest
+from io import BytesIO
 from unittest.mock import patch, MagicMock
-from django.urls import reverse, resolve
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client, SimpleTestCase
-from . import views, utils
-
+from django.urls import reverse, resolve
+from powerpoint_generator import utils, views
+from .views import *
 
 User = get_user_model()
 
@@ -41,34 +41,50 @@ class UtilsTestCase(TestCase):
         mock_model_instance.generate_content.assert_called_once_with(payload)
         self.assertEqual(result, 'Failed to generate content')
 
-    @patch('requests.get')
-    def test_search_images_pexels_success(self, mock_get):
+    @patch('requests.post')
+    def test_make_image_request(self, mock_post):
         mock_response = MagicMock()
-        mock_response.json.return_value = {'photos': [{'src': {'medium': 'image.jpg'}, 'url': 'image_url'}]}
-        mock_get.return_value = mock_response
+        mock_response.content = b'image_data'
+        mock_post.return_value = mock_response
 
-        image_url, source_url = utils.search_images_pexels('landscape')
+        url = 'https://example.com'
+        payload = {'key': 'value'}
 
-        self.assertEqual(image_url, 'image.jpg')
-        self.assertEqual(source_url, 'image_url')
-        mock_get.assert_called_once_with(
-            f'https://api.pexels.com/v1/search?landscape&per_page=1',
-            headers={'Authorization': settings.PEXELS_API_KEY}
-        )
+        result = make_image_request(url, payload)
+        self.assertEqual(result, b'image_data')
+        mock_post.assert_called_once_with(url, headers=settings.HEADERS, json=payload)
 
-    @patch('requests.get')
-    def test_search_images_pexels_no_photos(self, mock_get):
-        mock_response = MagicMock()
-        mock_response.json.return_value = {'photos': []}
-        mock_get.return_value = mock_response
+    @patch('your_module.make_image_request')
+    def test_search_images_open_journey(self, mock_make_image_request):
+        mock_make_image_request.return_value = b'image_data'
 
-        result = utils.search_images_pexels('landscape')
+        payload = {'key': 'value'}
 
-        self.assertIsNone(result)
-        mock_get.assert_called_once_with(
-            f'https://api.pexels.com/v1/search?landscape&per_page=1',
-            headers={'Authorization': settings.PEXELS_API_KEY}
-        )
+        result = search_images_stable_diffusion(payload)
+        self.assertEqual(result, b'image_data')
+        mock_make_image_request.assert_called_once_with(settings.OPEN_JOURNEY_URL, payload)
+
+    def test_process_image_bytes_success(self):
+        image = Image.new('RGB', (100, 100))
+        image_io = BytesIO()
+        image.save(image_io, format='JPEG')
+        image_bytes = image_io.getvalue()
+
+        result = process_image_bytes(image_bytes)
+        expected_result = f"data:image/jpeg;base64,{base64.b64encode(image_bytes).decode('utf-8')}"
+        self.assertEqual(result, expected_result)
+
+    def test_process_image_bytes_unsupported_format(self):
+        image_bytes = b'invalid_image_data'
+
+        with self.assertRaises(ValueError):
+            process_image_bytes(image_bytes)
+
+    def test_process_image_bytes_unidentified_image_error(self):
+        image_bytes = b''
+
+        with self.assertRaises((UnidentifiedImageError, ValueError)):
+            process_image_bytes(image_bytes)
 
     @patch('os.makedirs')
     @patch('os.path.join')
