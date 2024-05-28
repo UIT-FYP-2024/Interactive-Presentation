@@ -20,7 +20,7 @@ def search_images_pexels(prompt: str) -> tuple[str, str] | None:
         tuple[str, str] | None: The URL of the medium-sized image and the source URL, or None if no image is found.
     """
     query = quote_plus(prompt.lower())
-    url = f'{settings.PEXELS_API_URL}?query={query}&per_page=1'
+    url = f'{settings.PEXELS_API_URL}?query={query}&per_page=5'
     headers = {'Authorization': settings.PEXELS_API_KEY}
     try:
         response = requests.get(url, headers=headers)

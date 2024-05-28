@@ -40,9 +40,10 @@ INSTALLED_APPS = [
 
     'image_generator',
     'text_generator',
+    'powerpoint_generator',
 
     'powerpoint_editor',
-    'powerpoint_generator',
+    'image_editor'
 
 ]
 
@@ -128,11 +129,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
+PRESENTATION_TARGET_DIRECTORY = BASE_DIR / 'stock/presentations'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.image_models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.image_models.BigAutoField'
 
 AUTH_USER_MODEL = 'authentication.User'  # added manually
 
@@ -145,17 +146,18 @@ EMAIL_HOST_USER = 'wajahatashfaq2001@gmail.com'
 EMAIL_HOST_PASSWORD = 'fmlm tntk pirm dcfo'
 
 # Pexels
+PEXELS_API_URL = 'https://api.pexels.com/v1/search'
 PEXELS_API_KEY = '0019QDVqTvulnelSAucfe37tuHoN5rjKHTEoMkBb6WShat2F8lnyA0W0'
 
 # Stable Diffusion
-API_URL_STABLE_DIFFUSION = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
+STABLE_DIFFUSION_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
 HEADERS = {"Authorization": "Bearer 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"}
 
 # Open Journey
-API_URL_OPEN_JOURNEY = "https://api-inference.huggingface.co/models/prompthero/openjourney"
+OPEN_JOURNEY_URL = "https://api-inference.huggingface.co/models/prompthero/openjourney"
 
 # Waifu Diffusion
-API_URL_WAIFU_DIFFUSION = "https://api-inference.huggingface.co/models/Red54/waifu-diffusion-v1-3-5"
+WAIFU_DIFFUSION_URL = "https://api-inference.huggingface.co/models/Red54/waifu-diffusion-v1-3-5"
 
 # GEMINI API KEY
 API_KEY_GEMINI = "AIzaSyAAmToBecEqBzTibxpxzCVr0y40woO8LXY"

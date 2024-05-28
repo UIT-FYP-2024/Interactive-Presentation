@@ -102,8 +102,21 @@ def make_image_request(url: str, payload: dict) -> bytes:
         raise
 
 
-def search_images_stable_diffusion(payload: dict) -> bytes:
-    return make_image_request(settings.STABLE_DIFFUSION_URL, payload)
+def search_images(payload: dict) -> bytes:
+    endpoints = [
+        settings.STABLE_DIFFUSION_URL,
+        settings.OPEN_JOURNEY_URL,
+        settings.WAIFU_DIFFUSION_URL
+    ]
+
+    for endpoint in endpoints:
+        try:
+            return make_image_request(endpoint, payload)
+        except requests.RequestException as e:
+            print(f"Error with endpoint {endpoint}: {e}")
+            continue
+
+    raise Exception("All endpoints failed to process the request.")
 
 
 def process_image_bytes(image_bytes: bytes) -> str:
@@ -160,17 +173,25 @@ def create_ppt(template_choice, slides_content, presentation_title):
 
         delete_all_slides(prs)
 
-        title_and_content_layout = find_most_similar_layout(prs, "Content with Caption")
-        if not title_and_content_layout:
-            logger.warning("Layout 'Title and Content' not found in the template.")
+        # Find the appropriate layouts
+        title_slide_layout = find_most_similar_layout(prs, "Title Slide")
+        content_slide_layout = find_most_similar_layout(prs, "Picture with Caption")
+        if not title_slide_layout or not content_slide_layout:
+            logger.warning("Necessary layouts not found in the template.")
             return None
 
         # Title slide
-        slide = prs.slides.add_slide(title_and_content_layout)
-        title = slide.shapes.title
+        title_slide = prs.slides.add_slide(title_slide_layout)
+        title = title_slide.shapes.title
         title.text = presentation_title
         apply_formatting(title.text_frame.paragraphs, font_name='Times New Roman', font_color=title_font_color,
                          font_size=Pt(45))
+
+        # Remove the subtitle placeholder if it exists
+        if len(title_slide.placeholders) > 1:
+            subtitle_placeholder = title_slide.placeholders[1]
+            sp = subtitle_placeholder._sp
+            sp.getparent().remove(sp)
 
         # Validate and parse the JSON content
         try:
@@ -181,40 +202,40 @@ def create_ppt(template_choice, slides_content, presentation_title):
 
         # Iterate over the slides content dictionary
         for slide_number, slide_content in slides_content_dict.items():
-            slide = prs.slides.add_slide(title_and_content_layout)
+            slide = prs.slides.add_slide(content_slide_layout)
 
             title_placeholder = slide.placeholders[0]
-            content_placeholder = slide.placeholders[1]
+            content_placeholder = slide.placeholders[2]
 
             # Set the title and content in the slide placeholders
             title_placeholder.text = slide_content['title']
             content_placeholder.text = slide_content['content']
 
             apply_formatting(title_placeholder.text_frame.paragraphs, font_name='Times New Roman',
-                             font_color=title_font_color, font_size=Pt(15))
+                             font_color=title_font_color, font_size=Pt(24))
             apply_formatting(content_placeholder.text_frame.paragraphs, font_name='Times New Roman',
-                             font_color=content_font_color, font_size=Pt(12))
+                             font_color=content_font_color, font_size=Pt(20))
 
             # Generate and insert image for the slide
             if 'prompt_for_image_for_this_slide' in slide_content:
                 image_prompt = slide_content['prompt_for_image_for_this_slide']
                 if image_prompt:
                     logger.info(f"Searching images for: {image_prompt}")
-                    image_bytes = search_images_stable_diffusion({'inputs': image_prompt})
+                    image_bytes = search_images({'inputs': image_prompt})
                     if image_bytes:
                         try:
-                            image_extension = imghdr.what(None, h=image_bytes)
+                            image_extension = 'png'
                             if image_extension in ['jpeg', 'png', 'gif']:
                                 image = Image.open(io.BytesIO(image_bytes))
-                                output_image_path = os.path.join(os.path.join('static', 'stock', 'images'),
+                                output_image_path = os.path.join('static', 'stock', 'images',
                                                                  f"image_{slide_number}.{image_extension}")
                                 image.save(output_image_path)
-                                image_placeholder = slide.placeholders[2] if len(slide.placeholders) > 2 else None
+
+                                image_placeholder = slide.placeholders[1] if len(slide.placeholders) > 2 else None
                                 if image_placeholder:
-                                    slide.shapes.add_picture(output_image_path, find_content_placeholder(slide))
+                                    image_placeholder.insert_picture(output_image_path)
                                 else:
-                                    slide.shapes.add_picture(output_image_path, Inches(1), Inches(1), width=Inches(4),
-                                                             height=Inches(3))
+                                    slide.shapes.add_picture(output_image_path, Inches(1), Inches(1))
                                 os.remove(output_image_path)  # Remove the temporary image file
                             else:
                                 logger.error("Unsupported image format")

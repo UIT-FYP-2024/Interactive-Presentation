@@ -60,7 +60,7 @@ class UtilsTestCase(TestCase):
 
         payload = {'key': 'value'}
 
-        result = search_images_stable_diffusion(payload)
+        result = search_images(payload)
         self.assertEqual(result, b'image_data')
         mock_make_image_request.assert_called_once_with(settings.OPEN_JOURNEY_URL, payload)
 

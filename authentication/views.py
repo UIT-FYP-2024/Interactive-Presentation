@@ -84,7 +84,7 @@ def sign_out(request):
         HttpResponse: Redirect to the login page.
     """
     logout(request)
-    return redirect("login_advanced")
+    return render(request, 'authentication/login_advanced.html')
 
 
 def recover_password(request):

@@ -25,8 +25,9 @@ urlpatterns = [
 
     path('text_generator/', include('text_generator.urls')),
     path('image_generator/', include('image_generator.urls')),
+    path('powerpoint_generator/', include('powerpoint_generator.urls')),
 
     path('powerpoint_editor/', include('powerpoint_editor.urls')),
-    path('powerpoint_generator/', include('powerpoint_generator.urls')),
+    path('image_editor/', include('image_editor.urls'))
 
 ]
