@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>AI Presentation Maker</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{% static 'website/vendors/owl-carousel/css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/vendors/owl-carousel/css/owl.theme.default.css' %}">
+  <link rel="stylesheet" href="{% static 'website/vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/vendors/aos/css/aos.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/style.min.css' %}">
+</head>
+
+<body id="body" data-spy="scroll" data-target=".navbar" data-offset="100">
+  <header id="header-section">
+    <nav class="navbar navbar-expand-lg pl-3 pl-sm-0" id="navbar">
+      <div class="container">
+        <div class="navbar-brand-wrapper d-flex w-100">
+          <img src="{% static 'website/images/Group2.svg' %}" alt="">
+          <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="mdi mdi-menu navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse navbar-menu-wrapper" id="navbarSupportedContent">
+          <ul class="navbar-nav align-items-lg-center align-items-start ml-auto">
+            <li class="d-flex align-items-center justify-content-between pl-4 pl-lg-0">
+              <div class="navbar-collapse-logo">
+                <img src="{% static 'website/images/Group2.svg' %}" alt="">
+              </div>
+              <button class="navbar-toggler close-button" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="mdi mdi-close navbar-toggler-icon pl-5"></span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#header-section">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#features-section">Features</a>
+            </li>
+            <li class="nav-item btn-contact-us pl-4 pl-lg-0">
+              <button class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Contact Us</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="banner">
+    <div class="container">
+      <h1 class="font-weight-semibold">AI Presentation<br>Maker</h1>
+      <h6 class="font-weight-normal text-muted pb-3">Seamless Presentation Creation with AI Intelligence</h6>
+      <div>
+        <button class="btn btn-opacity-light mr-1" onclick="navigateToUrl()">Get started</button>
+      </div>
+      <img src="{% static 'website/images/Group171.svg' %}" alt="" class="img-fluid">
+    </div>
+  </div>
+  <div class="content-wrapper">
+    <div class="container">
+      <section class="features-overview" id="features-section">
+        <div class="content-header">
+          <h2>Features</h2>
+        </div>
+        <div class="d-md-flex justify-content-between">
+          <div class="grid-margin d-flex justify-content-start">
+            <div class="features-width">
+              <img src="{% static 'website/images/text.png' %}" alt="" class="img-icons">
+              <h5 class="py-3">Text<br>Generation</h5>
+              <p class="text-muted">Elevate your writing with our AI-driven text generation, combining advanced
+                technology with your unique voice for content that's always on point.</p>
+            </div>
+          </div>
+          <div class="grid-margin d-flex justify-content-center">
+            <div class="features-width">
+              <img src="{% static 'website/images/img.png' %}" alt="" class="img-icons">
+              <h5 class="py-3">Image<br>Generation</h5>
+              <p class="text-muted">Experience the future of image creation with our AI, turning your concepts into
+                stunning artwork with unmatched precision.</p>
+            </div>
+          </div>
+          <div class="grid-margin d-flex justify-content-end">
+            <div class="features-width">
+              <img src="{% static 'website/images/ppt.png' %}" alt="" class="img-icons">
+              <h5 class="py-3">PPT<br>Generation</h5>
+              <p class="text-muted">Experience the future of presentations with AI, turning your concepts into
+                compelling slides with unmatched precision.</p>
+            </div>
+          </div>
+          <div class="grid-margin d-flex justify-content-end">
+            <div class="features-width">
+              <img src="{% static 'website/images/editor.png' %}" alt="" class="img-icons">
+              <h5 class="py-3">PPT<br>Editor</h5>
+              <p class="text-muted">Unlock a new era of presentation design with our enhanced editor, revolutionizing
+                the way you communicate ideas by effortlessly turning concepts into captivating slides.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="contact-details" id="contact-details-section">
+        <div class="row text-center text-md-left">
+          <div class="col-12 col-md-6 col-lg-3 grid-margin">
+            <img src="{% static 'website/images/Group2.svg' %}" alt="" class="pb-2">
+            <div class="pt-2">
+              <p class="text-muted m-0">se15@gmail.com</p>
+              <p class="text-muted m-0">+92-321-8309598</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-3 grid-margin">
+            <h5 class="pb-2">Get in Touch</h5>
+            <p class="text-muted">Don’t miss any updates of our new templates and extensions.!</p>
+            <form>
+              <input type="text" class="form-control" id="Email" placeholder="Email id">
+            </form>
+            <div class="pt-3">
+              <button class="btn btn-dark">Subscribe</button>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3 grid-margin">
+            <h5 class="pb-2">Our address</h5>
+            <p class="text-muted">ABC Road<br>Karachi.</p>
+            <div class="d-flex justify-content-center justify-content-md-start">
+              <a href="#"><span class="mdi mdi-facebook"></span></a>
+              <a href="#"><span class="mdi mdi-twitter"></span></a>
+              <a href="#"><span class="mdi mdi-instagram"></span></a>
+              <a href="#"><span class="mdi mdi-linkedin"></span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <footer class="border-top">
+        <p class="text-center text-muted pt-4">Copyright © 2024<a href="#" class="px-1">SE-15</a>All rights reserved.
+        </p>
+      </footer>
+      <!-- Modal for Contact - us Button -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="exampleModalLabel">Contact Us</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="Name">Name</label>
+                  <input type="text" class="form-control" id="Name" placeholder="Name">
+                </div>
+                <div class="form-group">
+                  <label for="Email">Email</label>
+                  <input type="email" class="form-control" id="Email-1" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <label for="Message">Message</label>
+                  <textarea class="form-control" id="Message" placeholder="Enter your Message"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  function navigateToUrl() {
+    window.location.href = "{% url 'sign_in' %}";
+  }
+  </script>
+  <script src="{% static 'website/vendors/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'website/vendors/bootstrap/bootstrap.min.js' %}"></script>
+  <script src="{% static 'website/vendors/owl-carousel/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'website/vendors/aos/js/aos.js' %}"></script>
+  <script src="{% static 'website/js/landingpage.js' %}"></script>
+</body>
+
+</html>

@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'powerpoint_generator',
 
     'powerpoint_editor',
-    'image_editor'
+    'image_editor',
+
+    'website'
 
 ]
 
@@ -164,3 +166,5 @@ API_KEY_GEMINI = "AIzaSyAAmToBecEqBzTibxpxzCVr0y40woO8LXY"
 
 # Falcon 180b
 API_URL_Llama_2_70b_hf = "https://api-inference.huggingface.co/models/meta-llama/Llama-2-70b-hf"
+
+REMOVE_BG_API_KEY = 'rDUr75pxtYAaifJZB655Ehno'

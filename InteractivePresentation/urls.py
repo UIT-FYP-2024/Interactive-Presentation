@@ -28,6 +28,8 @@ urlpatterns = [
     path('powerpoint_generator/', include('powerpoint_generator.urls')),
 
     path('powerpoint_editor/', include('powerpoint_editor.urls')),
-    path('image_editor/', include('image_editor.urls'))
+    path('image_editor/', include('image_editor.urls')),
+
+    path('', include('website.urls'))
 
 ]

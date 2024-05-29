@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="panel panel-white" id="presentationDiv" style="height: 550px">
+<div class="panel panel-white" id="presentationDiv" style="height: 550px;">
     <form id="presentationForm" method="post" onsubmit="submitForm(event)">
         {% csrf_token %}
         <div class="panel-body">
@@ -65,7 +65,7 @@
                 <label for="prompt">Description <span class="text-danger">*</span></label>
                 <textarea name="prompt" rows="7" class="form-control" placeholder="Describe What You Want In Detail" required></textarea>
             </div>
-            
+
             <!-- Submit Button -->
             <div class="text-right">
                 <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
@@ -75,9 +75,41 @@
         </div>
     </form>
 </div>
-    
-<div id="loader" class="panel panel-body border-top-danger text-center" style="display: none; width: 150px; 
-                                                                                margin-left: 450px; margin-top: 200px">
+
+<div class="timeline-row" id="pptShow" style="display: none;">
+    <div class="panel panel-white" style="height: 550px;">
+        <div class="panel-heading">
+            <h6 class="panel-title">Presentation Preview</h6>
+            <div class="heading-elements">
+                <div class="form-group">
+{#                    <button id="editButton" type="button" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10" onclick="editForm()">#}
+{#                        <b><i class="icon-pencil5"></i></b> Edit#}
+{#                    </button>#}
+                    <a id="downloadButton" href="#" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
+                        <b><i class="icon-download"></i></b> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body" style="position: relative;">
+            <div id="slideshow" style="display: none; width: 100%; height: 550px;">
+                <div id="pptxContainer"></div>
+                
+                <div class="text-center">
+                    <button id="prevSlide" class="btn bg-teal-400 btn-labeled btn-labeled-left ml-10">
+                        <b><i class="icon-arrow-left8"></i></b> Previous
+                    </button>
+                    <button id="nextSlide" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
+                        <b><i class="icon-arrow-right8"></i></b> Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loader" class="panel panel-body border-top-danger text-center" style="display: none; width: 150px; margin-left: 450px; margin-top: 200px;">
     <div class="pace-demo">
         <div class="theme_squares">
             <div class="pace-progress" data-progress-text="60%" data-progress="60"></div>
@@ -85,20 +117,8 @@
         </div>
     </div>
 </div>
-    
-<div id="buttons_group" class="panel panel-body border-top-danger text-center" style="display: none; width: 400px; 
-                                                                               margin-left: 300px; margin-top: 200px">
-    <div class="pace-demo">
-        <button id="editButton" type="button" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10" onclick="editForm()">
-            <b><i class="icon-pencil5"></i></b> Edit
-        </button>    
-    </div>
-    <div class="pace-demo">
-        <a id="downloadButton" href="#" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
-            <b><i class="icon-download"></i></b> Download
-        </a>    
-    </div>
-</div>
+
+<script src="https://unpkg.com/pptxgenjs"></script>
     
 <script>
     function getCsrfToken() {
@@ -111,13 +131,13 @@
 
     function submitForm(event) {
         event.preventDefault();
-        
+
         const form = document.getElementById('presentationForm');
         const formData = new FormData(form);
-        
+
         const pptDiv = document.getElementById('presentationDiv');
         const loader = document.getElementById('loader');
-        const buttonsGroup = document.getElementById('buttons_group');
+        const pptContainer = document.getElementById('pptShow');
         const downloadButton = document.getElementById('downloadButton');
         
         pptDiv.style.display = 'none';
@@ -141,10 +161,12 @@
         })
         .then(async blob => {
             const url = window.URL.createObjectURL(await blob);
+
             loader.style.display = 'none';
-            buttonsGroup.style.display = 'block';
+            pptContainer.style.display = 'block';
+            
             downloadButton.href = url;
-            downloadButton.download = formData.get('topic_name') + '.pptx';
+            downloadButton.download = `${formData.get('topic_name')}.pptx`;
         })
         .catch(error => {
             loader.style.display = 'none';
@@ -153,9 +175,6 @@
             console.error('Error:', error);
         });
     }
-
-    function editForm() {
-        
-    }
+    
 </script>
 {% endblock %}

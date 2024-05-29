@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, FileResponse
 from django.shortcuts import render
 
 from .utils import *
@@ -55,3 +55,28 @@ def generate_presentation(request):
                 return HttpResponseBadRequest("Presentation file not found.")
         else:
             return HttpResponseBadRequest("Failed to create the presentation.")
+
+
+def last_created_ppt(request):
+    # Define the target directory where PPT files are located
+    target_dir = os.path.join('static', 'stock', 'presentations')
+
+    # Get a list of all PPT files in the target directory
+    ppt_files = [file for file in os.listdir(target_dir) if file.endswith('.pptx')]
+
+    # Check if there are any PPT files in the directory
+    if not ppt_files:
+        return HttpResponseBadRequest("No PPT files found in the target directory.")
+
+    # Sort the PPT files by creation time (ascending order)
+    ppt_files.sort(key=lambda x: os.path.getctime(os.path.join(target_dir, x)))
+
+    # Get the path to the last created PPT file
+    last_created_ppt_file = os.path.join(target_dir, ppt_files[-1])
+
+    # Serve the file using FileResponse
+    try:
+        return FileResponse(open(last_created_ppt_file, 'rb'),
+                            content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+    except Exception as e:
+        return HttpResponseBadRequest(f"Error: {str(e)}")

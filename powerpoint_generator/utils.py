@@ -214,7 +214,7 @@ def create_ppt(template_choice, slides_content, presentation_title):
             apply_formatting(title_placeholder.text_frame.paragraphs, font_name='Times New Roman',
                              font_color=title_font_color, font_size=Pt(24))
             apply_formatting(content_placeholder.text_frame.paragraphs, font_name='Times New Roman',
-                             font_color=content_font_color, font_size=Pt(20))
+                             font_color=content_font_color, font_size=Pt(16))
 
             # Generate and insert image for the slide
             if 'prompt_for_image_for_this_slide' in slide_content:
