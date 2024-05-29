@@ -1,2 +1,2 @@
  [build] 
- command = "python manage.py collectstatic --noinput" publish = "static"
+ command = "python manage.py runserver collectstatic --noinput" publish = "static"
